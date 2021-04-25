@@ -33,4 +33,5 @@ FetchContent_Declare(sysroot
 
 if (NOT sysroot_POPULATED)
     FetchContent_Populate(sysroot)
+    configure_file(cmake/toolchain.cmake.in toolchain.cmake @ONLY)
 endif()

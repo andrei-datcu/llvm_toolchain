@@ -1,7 +1,6 @@
 [
     {
         "name": "Win64 Clang Host",
-        "toolchainFile": "toolchain.cmake",
         "compilers": {
             "C": "C:\\Program Files\\LLVM\\bin\\clang.exe",
             "CXX": "C:\\Program Files\\LLVM\\bin\\clang++.exe"
