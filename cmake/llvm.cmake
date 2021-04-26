@@ -2,21 +2,42 @@ include(ExternalProject)
 
 set(LLVM_GIT_TAG "llvmorg-12.0.0" CACHE STRING "LLVM version used for TARGET libs")
 
+string(REGEX MATCH "^[^-]*" LLVM_TARGET_ARCH ${TARGET_TRIPLE})
+string(TOUPPER ${LLVM_TARGET_ARCH} LLVM_TARGET_ARCH)
+
+# This is the default value, but we need to use it in CMAKE_ARGS
+set(LLVM_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-prefix/src/llvm)
+
 ExternalProject_Add(llvm
     GIT_REPOSITORY https://github.com/llvm/llvm-project.git
     GIT_TAG        ${LLVM_GIT_TAG}
     GIT_SHALLOW    ON
+    SOURCE_DIR     ${LLVM_SOURCE_DIR}
     SOURCE_SUBDIR  llvm
     CMAKE_ARGS
         -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_BINARY_DIR}/toolchain.cmake
+        #-DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET_TRIPLE}
+        #-DLLVM_TARGET_ARCH=${LLVM_TARGET_ARCH}
+        #-DLLVM_TARGETS_TO_BUILD=${LLVM_TARGET_ARCH}
+        #-DLLVM_ENABLE_PROJECTS=clang$<SEMICOLON>compiler-rt$<SEMICOLON>clang-tools-extra
+        -DLLVM_HOST_TRIPLE=${TARGET_TRIPLE}
+        -DCMAKE_POLICY_DEFAULT_CMP0116=OLD
+        -DCOMPILER_RT_INCLUDE_TESTS=OFF
         -DCMAKE_CXX_FLAGS=-fuse-ld=lld
         -DCMAKE_C_FLAGS=-fuse-ld=lld
         -DLIBCXXABI_ENABLE_SHARED=OFF
+        -DLLVM_ENABLE_EH=ON
+        -DLLVM_ENABLE_RTTI=ON
+        -DLLVM_INCLUDE_TESTS=OFF
+        -DLLVM_INCLUDE_GO_TESTS=OFF
+        -DLLVM_INCLUDE_DOCS=OFF
+        -DLLVM_ENABLE_OCAMLDOC=OFF
+        -DLLVM_ENABLE_BINDINGS=OFF
+        -DLLVM_INCLUDE_EXAMPLES=OFF
         -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON
         -DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY=OFF
         -DLIBCXX_INCLUDE_BENCHMARKS=OFF
         -DLLVM_INCLUDE_BENCHMARKS=OFF
-        -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;clang-tools-extra;lldb"
         -DDEFAULT_SYSROOT=${sysroot_SOURCE_DIR}
-        -C$<TARGET_PROPERTY:llvm,SOURCE_DIR>/clang/cmake/caches/CrossWinToARMLinux.cmake 
+        -C${LLVM_SOURCE_DIR}/clang/cmake/caches/CrossWinToARMLinux.cmake 
 )

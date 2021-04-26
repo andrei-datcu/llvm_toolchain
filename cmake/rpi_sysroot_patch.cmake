@@ -8,12 +8,12 @@ set(sysroot_SOURCE_DIR ".")
 find_program(python python REQUIRED)
 execute_process(
     # limit what is extracted saving time and space and untar manually
-    COMMAND ${CMAKE_COMMAND} -E tar xfJ ${RPI_ROOTFS_ARCHIVE_NAME} -- ./lib ./usr/lib ./usr/include ./opt/
+    COMMAND ${CMAKE_COMMAND} -E tar xfJ ${RPI_ROOTFS_ARCHIVE_NAME} -- ./lib ./bin ./usr/lib ./usr/include ./usr/bin ./opt/
     WORKING_DIRECTORY ${sysroot_SOURCE_DIR}
 )
 
 execute_process(
     # fix links that point to absolute paths
-    COMMAND ${python} ${symlink_fixups_SOURCE_DIR}/sysroot-relativelinks.py ${sysroot_SOURCE_DIR}
+    COMMAND ${python} ${fix_links_script} ${sysroot_SOURCE_DIR}
     WORKING_DIRECTORY ${sysroot_SOURCE_DIR}
 )
