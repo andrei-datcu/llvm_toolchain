@@ -35,3 +35,5 @@ for subdir, dirs, files in os.walk(topdir):
         filePath = os.path.join(subdir, file)
         if os.path.islink(filePath):
             handlelink(filePath, subdir)
+
+os.symlink(".", os.path.join(topdir, "usr"))
