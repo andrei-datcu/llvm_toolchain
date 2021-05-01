@@ -27,9 +27,9 @@ ExternalProject_Add(llvm
         -DLLVM_TARGETS_TO_BUILD=${TARGET_ARCH}
         -DLLVM_HOST_TRIPLE=${TARGET_TRIPLE} # This may look werid, but it's correct. Used by lldb
         -DLLVM_TARGETS_TO_BUILD=${TARGET_ARCH} # No cross-compile capabilities needed for the built toolchain
-        -DLLVM_ENABLE_PROJECTS=#clang$<SEMICOLON>lldb
-        -DLLVM_ENABLE_RUNTIMES=libunwind$<SEMICOLON>#compiler-rt$<SEMICOLON>libcxxabi$<SEMICOLON>libcxx
-        -DLLVM_DISTRIBUTION_COMPONENTS=#builtins$<SEMICOLON>clang$<SEMICOLON>runtimes$<SEMICOLON>lldb
+        -DLLVM_ENABLE_PROJECTS=clang$<SEMICOLON>lldb
+        -DLLVM_ENABLE_RUNTIMES=compiler-rt$<SEMICOLON>libcxxabi$<SEMICOLON>libcxx
+        -DLLVM_DISTRIBUTION_COMPONENTS=builtins$<SEMICOLON>clang$<SEMICOLON>runtimes$<SEMICOLON>lldb
         # LLVM options
         -DLLVM_ENABLE_LIBXML2=OFF
         -DLLVM_ENABLE_ZLIB=OFF
@@ -50,19 +50,19 @@ ExternalProject_Add(llvm
         -DRUNTIMES_CMAKE_ARGS=-DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_BINARY_DIR}/toolchain.cmake$<SEMICOLON>-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
         -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON
 
-        -DLIBUNWIND_USE_COMPILER_RT=ON
-        -DLIBUNWIND_TARGET_TRIPLE=${TARGET_TRIPLE}
-        -DLIBUNWIND_SYSROOT=${SYSROOT}
-
-        -DLIBCXXABI_USE_LLVM_UNWINDER=ON
-        -DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON
-        -DLIBCXXABI_USE_COMPILER_RT=ON
-        -DLIBCXXABI_TARGET_TRIPLE=${TARGET_TRIPLE}
-        -DLIBCXXABI_SYSROOT=${sysroot_SOURCE_DIR}/usr
-
-        -DLIBCXX_USE_COMPILER_RT=ON
-        -DLIBCXX_TARGET_TRIPLE=${TARGET_TRIPLE}
-        -DLIBCXX_SYSROOT=${sysroot_SOURCE_DIR}/usr
-        -DLIBCXX_INCLUDE_BENCHMARKS=OFF
+        # Uncomment those if you want a gnu-less toolchain
+        # -static -pthread won't work unfortunately:
+        # https://lists.llvm.org/pipermail/llvm-dev/2021-April/150319.html
+        #-DLIBUNWIND_USE_COMPILER_RT=ON
+        #-DLIBUNWIND_TARGET_TRIPLE=${TARGET_TRIPLE}
+        #-DLIBUNWIND_SYSROOT=${SYSROOT}
+        #-DLIBCXXABI_USE_COMPILER_RT=ON
+        #-DLIBCXX_USE_COMPILER_RT=ON
         #-DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON
+        -DLIBCXXABI_TARGET_TRIPLE=${TARGET_TRIPLE}
+        -DLIBCXXABI_SYSROOT=${SYSROOT}/usr
+
+        -DLIBCXX_TARGET_TRIPLE=${TARGET_TRIPLE}
+        -DLIBCXX_SYSROOT=${SYSROOT}/usr
+        -DLIBCXX_INCLUDE_BENCHMARKS=OFF
 )
