@@ -3,21 +3,23 @@ include(ExternalProject)
 set(LLVM_GIT_TAG "llvmorg-12.0.0" CACHE STRING "LLVM version used for TARGET libs")
 
 
-# This is the default value, but we need to use it in CMAKE_ARGS
-set(LLVM_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-prefix/src/llvm)
+# The directory where LLVM is installed (this happens during build)
+# From here we install to the final location
+set(LLVM_TEMP_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-install)
 
 ExternalProject_Add(llvm
     GIT_REPOSITORY https://github.com/llvm/llvm-project.git
     GIT_TAG        ${LLVM_GIT_TAG}
     GIT_SHALLOW    ON
-    SOURCE_DIR     ${LLVM_SOURCE_DIR}
     SOURCE_SUBDIR  llvm
     USES_TERMINAL_DOWNLOAD ON
     USES_TERMINAL_CONFIGURE ON
     USES_TERMINAL_BUILD ON
     USES_TERMINAL_INSTALL ON
+    TEST_COMMAND   ""
     CMAKE_ARGS
         -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_BINARY_DIR}/toolchain.cmake # used for any host os
+        -DCMAKE_INSTALL_PREFIX=${LLVM_TEMP_INSTALL_DIR}
         -DCMAKE_BUILD_TYPE=Release
         # The compiler to build the native llvm/clang tools must be cl.exe on windows
         # The native tools need to be built before the target tools are built
