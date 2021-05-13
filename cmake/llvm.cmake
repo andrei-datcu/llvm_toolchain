@@ -16,6 +16,7 @@ ExternalProject_Add(llvm
     USES_TERMINAL_CONFIGURE ON
     USES_TERMINAL_BUILD ON
     USES_TERMINAL_INSTALL ON
+    PATCH_COMMAND git apply ${CMAKE_SOURCE_DIR}/cmake/llvm.patch
     TEST_COMMAND   ""
     CMAKE_ARGS
         -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_BINARY_DIR}/toolchain.cmake # used for any host os
