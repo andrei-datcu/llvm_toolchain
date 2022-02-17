@@ -4,9 +4,9 @@ find_program(python python REQUIRED)
 set(RPI_ROOTFS_ARCHIVE_BASE_URL "https://downloads.raspberrypi.org/raspios_lite_armhf/archive" CACHE STRING
     "Base URL where the raspios rootfs archive can be found")
 
-set(RPI_ROOTFS_ARCHIVE_VERSION "2021-03-25-14:47" CACHE STRING "The version folder to append to the url")
+set(RPI_ROOTFS_ARCHIVE_VERSION "2022-01-28-13:51" CACHE STRING "The version folder to append to the url")
 set(RPI_ROOTFS_ARCHIVE_NAME "root.tar.xz" CACHE STRING "Name of the rootfs archive to be fetched from url")
-set(RPI_ROOTFS_ARCHIVE_MD5 "DAC5224B993834B2C8B2C9483197C9F2" CACHE STRING "Hash of the rootfs archive")
+set(RPI_ROOTFS_ARCHIVE_MD5 "db47a1407f06f8a30cb7c01f41a2d10a" CACHE STRING "Hash of the rootfs archive")
 
 set(RPI_ROOTFS_ARCHIVE_URL ${RPI_ROOTFS_ARCHIVE_BASE_URL}/${RPI_ROOTFS_ARCHIVE_VERSION}/${RPI_ROOTFS_ARCHIVE_NAME})
 MESSAGE(STATUS "RPI_ROOTFS_ARCHIVE_URL = ${RPI_ROOTFS_ARCHIVE_URL}")

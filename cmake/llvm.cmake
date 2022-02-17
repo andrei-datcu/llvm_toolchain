@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-set(LLVM_GIT_TAG "llvmorg-12.0.0" CACHE STRING "LLVM version used for TARGET libs")
+set(LLVM_GIT_TAG "llvmorg-13.0.1" CACHE STRING "LLVM version used for TARGET libs")
 
 
 # The directory where LLVM is installed (this happens during build)
