@@ -8,9 +8,9 @@ endif()
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE INTERNAL "Where to install the toolchain")
 
-set(TARGET_TRIPLE "armv7-linux-gnueabihf" CACHE STRING "Target Triple")
+set(TARGET_TRIPLE "arm-unknown-linux-gnueabihf" CACHE STRING "Target Triple")
 set(TARGET_TRIPLE_NO_SUB "arm-linux-gnueabihf" CACHE STRING "Target Triple without arch sub type")
-set(TARGET_TRIPLE_WITH_VENDOR "armv7-unknown-linux-gnueabihf" CACHE STRING "Target Triple without arch sub type")
+set(TARGET_TRIPLE_WITH_VENDOR "arm-unknown-linux-gnueabihf" CACHE STRING "Target Triple without arch sub type")
 set(TARGET_ARCH "ARM")
 
 set(CMAKE_C_COMPILER_TARGET ${TARGET_TRIPLE})

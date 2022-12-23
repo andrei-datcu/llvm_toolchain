@@ -27,12 +27,11 @@ ExternalProject_Add(llvm
         -DCROSS_TOOLCHAIN_FLAGS_NATIVE=-DCMAKE_C_COMPILER=cl.exe$<SEMICOLON>-DCMAKE_CXX_COMPILER=cl.exe 
         -DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET_TRIPLE}
         -DLLVM_TARGET_ARCH=${TARGET_ARCH}
-        -DLLVM_TARGETS_TO_BUILD=${TARGET_ARCH}
         -DLLVM_HOST_TRIPLE=${TARGET_TRIPLE} # This may look werid, but it's correct. Used by lldb
         -DLLVM_TARGETS_TO_BUILD=${TARGET_ARCH} # No cross-compile capabilities needed for the built toolchain
         -DLLVM_ENABLE_PROJECTS=clang$<SEMICOLON>lldb
         -DLLVM_ENABLE_RUNTIMES=compiler-rt$<SEMICOLON>libcxxabi$<SEMICOLON>libcxx
-        -DLLVM_DISTRIBUTION_COMPONENTS=builtins$<SEMICOLON>clang$<SEMICOLON>runtimes$<SEMICOLON>lldb
+        -DLLVM_DISTRIBUTION_COMPONENTS=clang$<SEMICOLON>runtimes$<SEMICOLON>lldb
         # LLVM options
         -DLLVM_ENABLE_LIBXML2=OFF
         -DLLVM_ENABLE_ZLIB=OFF
@@ -52,6 +51,7 @@ ExternalProject_Add(llvm
         -DBUILTINS_CMAKE_ARGS=-DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_BINARY_DIR}/toolchain.cmake
         -DRUNTIMES_CMAKE_ARGS=-DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_BINARY_DIR}/toolchain.cmake$<SEMICOLON>-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
         -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON
+        -DCOMPILER_RT_BUILD_BUILTINS=OFF
 
         # Uncomment those if you want a gnu-less toolchain
         # -static -pthread won't work unfortunately:
